@@ -2,6 +2,7 @@
 package Techlab;
 import java.util.Scanner;
 
+//Aula 02
 /*public class Main {
     public static void main(String[] args) {
         // Criando a primeira instância de AtivoTI na memória RAM
@@ -19,7 +20,8 @@ import java.util.Scanner;
     }
 }*/
 
-public class Main{
+//Aula 03
+/*public class Main{
     public static void main(String[] args){
         Scanner leitor = new Scanner(System.in);
 
@@ -56,6 +58,40 @@ public class Main{
         System.out.println("\n=== Verificação de Integridade em RAM ===");
         System.out.println("Status no objeto 'equipamento': " + equipamento.getStatus());
         System.out.println("Status via objeto 'chamado': " + chamado.getAtivoRelacionado().getStatus());
+
+        leitor.close();
+    }
+}*/
+
+//Aula 04
+public class Main{
+    public static void main(String[] args){
+        Scanner leitor = new Scanner(System.in);
+
+        System.out.println("=== Cadastro de AtivoTI Simplificado ===");
+        System.out.print("Digite o ID do ativo: ");
+        int idAtivo = leitor.nextInt();
+        leitor.nextLine(); // Limpar o buffer
+        System.out.print("Digite o código de patrimônio: ");
+        String codigoPatrimonio = leitor.nextLine();
+        System.out.print("Informe o modelo do ativo: ");
+        String modelo = leitor.nextLine();
+
+        AtivoTI equipamento = new AtivoTI(idAtivo, codigoPatrimonio, modelo);
+
+        System.out.println("\n=== Ativo Cadastrado Chamado ===");
+        System.out.print("ID do Chamado de Suporte: ");
+        int idChamado = leitor.nextInt();
+        leitor.nextLine(); // Limpar o buffer
+        System.out.print("Descrição do Chamado: ");
+        String descricaoChamado = leitor.nextLine();
+        System.out.print("Prioridade (Alta/Media/Baixa): ");
+        String prioridade = leitor.nextLine();
+
+        ChamadoSuporte chamado = new ChamadoSuporte(idChamado, descricaoChamado, prioridade, equipamento);
+
+        System.out.println("\n=== Relatorio do Sistema ===");
+        System.out.println(chamado);
 
         leitor.close();
     }
