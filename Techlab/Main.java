@@ -64,7 +64,7 @@ import java.util.Scanner;
 }*/
 
 //Aula 04
-public class Main{
+/*public class Main{
     public static void main(String[] args){
         Scanner leitor = new Scanner(System.in);
 
@@ -94,5 +94,72 @@ public class Main{
         System.out.println(chamado);
 
         leitor.close();
+    }
+}*/
+
+//Aula 05
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println("   TECHLAB INVENTORY - TESTE DE HERANÇA (AULA 5)  ");
+        System.out.println("==================================================\n");
+
+        System.out.println("[RAM] Instanciando objetos especializados no Heap...");
+        
+        // 1. Instanciamos apenas objetos da subclasse Servidor (com dados diferentes) [cite: 64, 211]
+        Servidor servidorWeb = new Servidor(
+            1, 
+            "PAT-2026-001", 
+            "Dell PowerEdge R740", 
+            "Ativo", 
+            "192.168.1.100", 
+            "Ubuntu Server 22.04 LTS"
+        );
+
+        Servidor servidorBanco = new Servidor(
+            2, 
+            "PAT-2026-003", 
+            "HP ProLiant DL360", 
+            "Em Manutenção", 
+            "192.168.1.150", 
+            "Windows Server 2022"
+        );
+
+        // 2. Polimorfismo com Arrays Nativos (Tamanho Fixo)
+        // Criamos um array do tipo da superclasse 'AtivoTI' com capacidade para 2 elementos.
+        // O Java permite armazenar referências de 'Servidor' nele porque Servidor "é um" AtivoTI.
+        AtivoTI[] inventario = new AtivoTI[1]; [cite: 16, 80]
+        inventario = servidorWeb;   // Posição 0 do vetor recebe o servidor Web
+        inventario[2] = servidorBanco; // Posição 1 do vetor recebe o servidor de Banco
+
+        System.out.println("\n==================================================");
+        System.out.println("       RELATÓRIO POLIMÓRFICO DE ATIVOS (ARRAY)    ");
+        System.out.println("==================================================");
+
+        // 3. Iteração polimórfica com o laço 'for' aprimorado (foreach)
+        // O Java percorre o array e chama implicitamente o toString() especializado 
+        // de cada objeto em tempo de execução (vinculação tardia).
+        for (AtivoTI ativo : inventario) { [cite: 17, 107]
+            // Boa prática: Evitamos NullPointerException garantindo que a posição não está vazia
+            if (ativo != null) {
+                System.out.println(ativo); // Chamada implícita ao toString() especializado
+            }
+        }
+        System.out.println("--------------------------------------------------");
+
+        System.out.println("\n==================================================");
+        System.out.println("        TESTANDO DOWNCASTING SEGURO (ARRAY)       ");
+        System.out.println("==================================================");
+
+        // 4. Varredura do array para Downcasting seguro usando 'instanceof'
+        // Permite recuperar os atributos exclusivos do herdeiro a partir da referência genérica.
+        for (AtivoTI ativo : inventario) {
+            if (ativo instanceof Servidor) { // Se a referência apontar de fato para um Servidor
+                Servidor srv = (Servidor) ativo; // Realiza o downcast explícito
+                System.out.printf("Ativo ID %d é um Servidor. IP: %s | SO: %s%n", 
+                                  srv.getId(), srv.getIpEstatico(), srv.getSistemaOperacional());
+            }
+        }
+        System.out.println("==================================================");
     }
 }

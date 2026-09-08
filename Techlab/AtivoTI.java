@@ -52,7 +52,7 @@ package Techlab;
 }*/
 
 //Aul04
-public class AtivoTI{
+/*public class AtivoTI{
     private int id;
     private String patrimonio;
     private String modelo;
@@ -83,4 +83,30 @@ public class AtivoTI{
         return "Ativo TI [ID: "+this.id+" | Pat: "+this.patrimonio+
                 " | Modelo: "+this.modelo+" | Sattus: "+this.status+"]";
     }
+}*/
+
+//Aula 05
+public class AtivoTI{
+    //Atributos
+
+
+    //Construtor
+    public AtivoTI(int id, String patrimonio, String modelo, String status){
+        this.id = id;
+        this.patrimonio = patrimonio;
+        this.modelo = modelo;
+        this.status = status;
+    }
+
+    //Getters e Setters
+    public int getId() {return id;}
+    public String getPatrimonio(){return patrimonio;}
+    public String getModelo(){return modelo;}
+    public String getStatus(){return status;}
+    public void setPatrimonio(String patrimonio){this.patrimonio = patrimonio;}
+    public void setModelo(String modelo){this.modelo = modelo;}
+    public void setStatus(String status){this.status = status;}
+
+    //Representação
+    
 }
