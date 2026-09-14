@@ -1,6 +1,6 @@
 // Classe principal para testar a funcionalidade da classe AtivoTI
 package Techlab;
-import java.util.Scanner;
+//import java.util.Scanner;
 
 //Aula 02
 /*public class Main {
@@ -98,7 +98,7 @@ import java.util.Scanner;
 }*/
 
 //Aula 05
-public class Main {
+/*public class Main {
     public static void main(String[] args) {
         System.out.println("==================================================");
         System.out.println("   TECHLAB INVENTORY - TESTE DE HERANÇA (AULA 5)  ");
@@ -125,41 +125,103 @@ public class Main {
             "Windows Server 2022"
         );
 
-        // 2. Polimorfismo com Arrays Nativos (Tamanho Fixo)
-        // Criamos um array do tipo da superclasse 'AtivoTI' com capacidade para 2 elementos.
-        // O Java permite armazenar referências de 'Servidor' nele porque Servidor "é um" AtivoTI.
-        AtivoTI[] inventario = new AtivoTI[1]; [cite: 16, 80]
-        inventario = servidorWeb;   // Posição 0 do vetor recebe o servidor Web
-        inventario[2] = servidorBanco; // Posição 1 do vetor recebe o servidor de Banco
+       System.out.println(servidorWeb);
+       System.out.println(servidorBanco);
+    } 
+}*/
 
+//Aula 6
+public class Main {
+
+    public static void main(String[] args) {
+        System.out.println("==================================================");
+        System.out.println(" TECHLAB INVENTORY - ABSTRAÇÃO E INTERFACES (AULA 6) ");
+        System.out.println("==================================================\n");
+
+        // ----------------------------------------------------------------- 
+        // 1. DEMONSTRAÇÃO DE ABSTRAÇÃO (Tentativa de Instanciação Direta) 
+        // ----------------------------------------------------------------- 
+        // A linha abaixo causará um ERRO DE COMPILAÇÃO se descomprometida: 
+        // AtivoTI ativoGenerico = new AtivoTI(0, "PAT-000", "Generico", "Ativo"); 
+        // Motivo: 'AtivoTI' é abstrata e não pode ser instanciada diretamente no Heap! 
+        System.out.println("[REGRA DE NEGÓCIO] 'AtivoTI' é uma classe abstrata e não pode usar 'new'.\n");
+
+        // ----------------------------------------------------------------- 
+        // 2. INSTANCIAÇÃO DE SUBCLASSES CONCRETAS 
+        // ----------------------------------------------------------------- 
+        System.out.println("[RAM] Instanciando objetos concretos especializados no Heap...");
+
+        // Instanciamos objetos da subclasse concreta 'Servidor' 
+        Servidor servidorWeb = new Servidor(
+            1, 
+            "PAT-2026-001", 
+            "Dell PowerEdge R740", 
+            "Ativo", 
+            "192.168.1.100", 
+            "Ubuntu Server 22.04 LTS",
+            128
+        );
+
+        Servidor servidorBanco = new Servidor(
+            2, 
+            "PAT-2026-003", 
+            "HP ProLiant DL360", 
+            "Em Manutenção", 
+            "192.168.1.150", 
+            "Windows Server 2022",
+            64
+        );
+
+        // ----------------------------------------------------------------- 
+        // 3. RELATÓRIO POLIMÓRFICO DE CUSTOS (Usando Classe Abstrata) 
+        // ----------------------------------------------------------------- 
         System.out.println("\n==================================================");
-        System.out.println("       RELATÓRIO POLIMÓRFICO DE ATIVOS (ARRAY)    ");
+        System.out.println(" RELATÓRIO DE CUSTOS DE MANUTENÇÃO (ABSTRAÇÃO) ");
         System.out.println("==================================================");
 
-        // 3. Iteração polimórfica com o laço 'for' aprimorado (foreach)
-        // O Java percorre o array e chama implicitamente o toString() especializado 
-        // de cada objeto em tempo de execução (vinculação tardia).
-        for (AtivoTI ativo : inventario) { [cite: 17, 107]
-            // Boa prática: Evitamos NullPointerException garantindo que a posição não está vazia
+        // Correção da inicialização do array para evitar erros de compilação
+        AtivoTI[] inventario = new AtivoTI[2]; 
+        inventario[0] = servidorWeb; 
+        inventario[1] = servidorBanco;
+
+        double custoTotalEmpresa = 0.0;
+
+        for (AtivoTI ativo : inventario) {
             if (ativo != null) {
-                System.out.println(ativo); // Chamada implícita ao toString() especializado
+                // Impressão polimórfica (toString) 
+                System.out.println(ativo);
+
+                // Invocação do MÉTODOS ABSTRATO implementado obrigatoriamente na subclasse 
+                double custoAtivo = ativo.calcularCustoManutencaoMensal();
+                custoTotalEmpresa += custoAtivo;
+
+                System.out.printf(" └─> Custo Estimado de Manutenção: R$ %.2f%n%n", custoAtivo);
             }
         }
+
+        System.out.printf("CUSTO TOTAL DE MANUTENÇÃO MENSAL: R$ %.2f%n", custoTotalEmpresa);
         System.out.println("--------------------------------------------------");
 
+        // ----------------------------------------------------------------- 
+        // 4. USO DE INTERFACES E CONTRATOS (INotificavel) 
+        // ----------------------------------------------------------------- 
         System.out.println("\n==================================================");
-        System.out.println("        TESTANDO DOWNCASTING SEGURO (ARRAY)       ");
+        System.out.println(" DISPARO DE ALERTAS (INTERFACE INotificavel) ");
         System.out.println("==================================================");
 
-        // 4. Varredura do array para Downcasting seguro usando 'instanceof'
-        // Permite recuperar os atributos exclusivos do herdeiro a partir da referência genérica.
-        for (AtivoTI ativo : inventario) {
-            if (ativo instanceof Servidor) { // Se a referência apontar de fato para um Servidor
-                Servidor srv = (Servidor) ativo; // Realiza o downcast explícito
-                System.out.printf("Ativo ID %d é um Servidor. IP: %s | SO: %s%n", 
-                                  srv.getId(), srv.getIpEstatico(), srv.getSistemaOperacional());
-            }
-        }
-        System.out.println("==================================================");
+        // Instanciamos um ChamadoSuporte que se associa a um ativo 
+        ChamadoSuporte chamadoCritico = new ChamadoSuporte(
+            101, 
+            "Falha de Hardware no Servidor de Banco de Dados", 
+            "Alta",
+            servidorBanco
+        );
+
+        // Polimorfismo de Interface: Tratamos o objeto pela capacidade da Interface INotificavel 
+        INotificavel canalNotificacao = chamadoCritico;
+
+        // Disparamos a mensagem garantida pelo contrato da interface 
+        canalNotificacao.enviarAlerta("Superaquecimento detectado no processador do Servidor!");
+        System.out.println("================================================--");
     }
 }
