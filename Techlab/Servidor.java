@@ -18,4 +18,10 @@ public class Servidor extends AtivoTI{
         return "[Servidor] " +super.toString()+ " | IP: " +ipEstatico+ " | SO: " +sistemaOperacional;
     }
 
+    @Override
+    public double calcularCustoManutencaoMensal() {
+        // Regra de Negócio: Custo Base + (Cores * 50)
+        return 200.0 + (this.memoriaRam * 50.0);
+    }
+
 }

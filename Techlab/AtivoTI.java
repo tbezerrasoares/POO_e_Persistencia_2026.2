@@ -86,9 +86,12 @@ package Techlab;
 }*/
 
 //Aula 05
-public class AtivoTI{
+/*public class AtivoTI{
     //Atributos
-
+    protected int id;
+    protected String patrimonio;
+    protected String modelo;
+    protected String status;
 
     //Construtor
     public AtivoTI(int id, String patrimonio, String modelo, String status){
@@ -108,5 +111,43 @@ public class AtivoTI{
     public void setStatus(String status){this.status = status;}
 
     //Representação
-    
+    @Override
+    public String toString(){
+        return "ID: " +id+ " | Pat: " +patrimonio+ " | Modelo: " +modelo+ " | Status: " +status;
+    }
+}*/
+
+//Aula 6
+public abstract class AtivoTI{
+    //Atributos
+    private int id;
+    private String patrimonio;
+    private String modelo;
+    private String status;
+
+    //Construtor
+    public AtivoTI(int id, String patrimonio, String modelo, String status){
+        this.id = id;
+        this.patrimonio = patrimonio;
+        this.modelo = modelo;
+        this.status = status;
+    }
+
+    //Getters e Setters
+    public int getId() {return id;}
+    public String getPatrimonio(){return patrimonio;}
+    public String getModelo(){return modelo;}
+    public String getStatus(){return status;}
+    public void setPatrimonio(String patrimonio){this.patrimonio = patrimonio;}
+    public void setModelo(String modelo){this.modelo = modelo;}
+    public void setStatus(String status){this.status = status;}
+
+    //Representação
+    @Override
+    public String toString(){
+        return "ID: " +id+ " | Pat: " +patrimonio+ " | Modelo: " +modelo+ " | Status: " +status;
+    }
+
+    //Método Abstrato
+    public abstract double calcularCustoManutencaoMensal();
 }

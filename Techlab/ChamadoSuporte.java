@@ -25,7 +25,7 @@ package Techlab;
 }*/
 
 //Aula 04
-public class ChamadoSuporte{
+/*public class ChamadoSuporte{
     private int id;
     private String descricao;
     private String prioridade;
@@ -51,5 +51,45 @@ public class ChamadoSuporte{
                 "Prioridade: " + this.prioridade + "\n" +
                 "Equipamento Relacionado: " + this.ativoRelacionado + "\n" +
                 "------------------------------------";
+    }
+
+    @Override 
+    public void enviarAlerta(String mensagem) {
+        System.out.println("[SISTEMA DE ALERTA]: " + mensagem);
+    }
+}*/
+
+//Aula 6
+public class ChamadoSuporte implements INotificavel{
+    private int id;
+    private String descricao;
+    private String prioridade;
+    private AtivoTI ativoRelacionado;
+
+    public ChamadoSuporte(int id, String descricao, String prioridade, AtivoTI ativoRelacionado){
+        this.id = id;
+        this.descricao = descricao;
+        this.prioridade = prioridade;
+        this.ativoRelacionado = ativoRelacionado;
+    }
+
+    public AtivoTI getAtivoRelacionado(){
+        return this.ativoRelacionado;
+    }
+
+    //Representação textual
+    @Override
+    public String toString(){
+        return "------------------------------------\n" +
+                "Chamado #" + this.id + "\n" +
+                "Descrição: " + this.descricao + "\n" +
+                "Prioridade: " + this.prioridade + "\n" +
+                "Equipamento Relacionado: " + this.ativoRelacionado + "\n" +
+                "------------------------------------";
+    }
+
+    @Override 
+    public void enviarAlerta(String mensagem) {
+        System.out.println("[SISTEMA DE ALERTA]: " + mensagem);
     }
 }
